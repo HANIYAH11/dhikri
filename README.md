@@ -28,6 +28,45 @@ npm run preview      # معاينة نسخة الإنتاج: http://localhost:41
 
 ---
 
+## النشر على GitHub Pages
+
+| | |
+| --- | --- |
+| المستودع | https://github.com/HANIYAH11/dhikri |
+| الموقع | https://haniyah11.github.io/dhikri/ |
+
+- فرع **`main`** = الكود المصدر (يُرفع بالعادي).
+- فرع **`gh-pages`** = نسخة الإنتاج المبنية (`dist/`)، وهو مصدر GitHub Pages.
+- الروابط نسبية و`base: "./"`، فيعمل الموقع من مجلد فرعي مثل `/dhikri/` دون أي ضبط.
+
+### تحديث الموقع بعد تعديل
+
+**الطريقة الأولى (سكربت):**
+
+```powershell
+$env:GH_TOKEN = "ghp_..."   # رمز بصلاحية repo
+powershell -ExecutionPolicy Bypass -File scripts/deploy.ps1
+```
+
+**الطريقة الثانية (يدويًّا):**
+
+```powershell
+npm.cmd run build
+# انسخ محتوى dist/ وملف .nojekyll إلى فرع gh-pages ثم:
+git push origin gh-pages
+```
+
+يُحدَّث الموقع خلال دقيقة تقريبًا من اكتمال الدفع.
+
+### النشر التلقائي مع كل push (اختياري)
+
+لتفعيل GitHub Actions لاحقًا: امنح الرمز صلاحية **`workflow`**، ثم انقل
+`deploy-workflow.example.yml` إلى `.github/workflows/deploy.yml`، واضبط
+**Settings → Pages → Source: GitHub Actions**. ملاحظة: صلاحية `workflow`
+ممنوعة على الرموز المحدودة (fine-grained) — تُستخدم الرموز الكلاسيكية.
+
+---
+
 ## بنية المشروع
 
 ```
