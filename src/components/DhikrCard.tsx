@@ -138,7 +138,7 @@ export default function DhikrCard({ dhikr, onNext, active }: Props) {
             showToast(fav ? "أُزيلت من المفضلة" : "♥ تمت الإضافة للمفضلة");
           }}
           aria-pressed={fav}
-          aria-label={fav ? "إزالة من المفضلة" : "إضافة إلى المفضلة"}
+          aria-label={fav ? "في المفضلة — اضغط للإزالة" : "أضف للمفضلة"}
           className={`flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-bold transition-colors ${
             fav
               ? "bg-gold-500/15 text-gold-700 dark:text-gold-300"

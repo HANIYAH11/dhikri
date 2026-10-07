@@ -114,8 +114,8 @@ export default function Tasbih({
           disabled={done}
           aria-label={
             done
-              ? "اكتمل الذكر"
-              : `اذكر الله — الضغط رقم ${current + 1} من ${target}`
+              ? "تمّ الذكر — اكتمل العدّ"
+              : `اذكر الله — اضغط للعدّ (الرقم ${current + 1} من ${target})`
           }
           className={`tasbih-btn absolute inset-0 m-auto flex h-[152px] w-[152px] flex-col items-center justify-center rounded-full text-center ${
             done
@@ -166,7 +166,7 @@ export default function Tasbih({
             onClick={onDecrement}
             disabled={current === 0}
             className="btn-ghost !px-3 !py-2 text-xs disabled:opacity-40"
-            aria-label="إنقاص العدّاد بواحد"
+            aria-label="− طرح — إنقاص العدّاد بواحد"
           >
             − طرح
           </button>
