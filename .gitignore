@@ -1,0 +1,14 @@
+# الاعتماديات ونتائج البناء
+node_modules/
+dist/
+*.local
+
+# ملفات النظام والمحرّر
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+
+# متغيّرات البيئة (إن وُجدت)
+.env
+.env.*

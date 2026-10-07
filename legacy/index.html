@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light" data-font="kufi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="أذكار الصباح والمساء كاملة مع مصادرها من القرآن الكريم وصحيح البخاري ومسلم وسنن أبي داود والترمذي والنسائي، مع مسبحة لكل ذكر متعدد، وخيار تكبير الخط، ومظهر داكن وفاتح.">
+<meta name="theme-color" content="#0f6b50">
+<title>أذكار — أذكار الصباح والمساء بمصادرها</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%230f6b50' stroke-width='9' stroke-linejoin='round'%3E%3Crect x='20' y='20' width='60' height='60'/%3E%3Crect x='20' y='20' width='60' height='60' transform='rotate(45 50 50)'/%3E%3C/g%3E%3C/svg%3E">
+
+<!-- خطوط محليّة (تعمل بدون إنترنت) -->
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════════ شريط علوي ═══════════ -->
+<header class="topbar">
+  <h1 class="sr-only">أذكار الصباح والمساء — بمصادرها وأحكامها</h1>
+  <a class="brand" href="#صباح">
+    <svg class="mark" viewBox="0 0 100 100" aria-hidden="true">
+      <g fill="none" stroke="url(#gg)" stroke-width="7" stroke-linejoin="round">
+        <rect x="21" y="21" width="58" height="58" rx="3"></rect>
+        <rect x="21" y="21" width="58" height="58" rx="3" transform="rotate(45 50 50)"></rect>
+      </g>
+      <circle cx="50" cy="50" r="11" fill="url(#gg)"></circle>
+      <defs>
+        <linearGradient id="gg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="var(--gold)"></stop>
+          <stop offset="100%" stop-color="var(--primary)"></stop>
+        </linearGradient>
+      </defs>
+    </svg>
+    <span class="brand-text">
+      <strong>أَذْكَار</strong>
+      <small>الصباح والمساء</small>
+    </span>
+  </a>
+
+  <div class="topbar-actions">
+    <div class="stepper" role="group" aria-label="حجم الخط">
+      <button class="ibtn" id="font-dec" title="تصغير الخط" aria-label="تصغير الخط">−</button>
+      <span class="stepper-label" id="font-val" title="حجم الخط">١٠٠٪</span>
+      <button class="ibtn" id="font-inc" title="تكبير الخط" aria-label="تكبير الخط">+</button>
+    </div>
+
+    <button class="ibtn wide" id="theme-toggle" title="تبديل المظهر" aria-label="تبديل المظهر بين الداكن والفاتح">
+      <span class="ico-dark">☾</span>
+    </button>
+
+    <button class="ibtn" id="open-settings" title="الإعدادات" aria-label="الإعدادات">☰</button>
+  </div>
+</header>
+
+<!-- ═══════════ تبويب الوقت ═══════════ -->
+<nav class="timebar" aria-label="اختيار وقت الأذكار">
+  <button class="time-tab" data-tab="صباح">
+    <span class="ti">☀</span>
+    <span class="tt">أذكار الصباح</span>
+  </button>
+  <button class="time-tab" data-tab="مساء">
+    <span class="ti">☾</span>
+    <span class="tt">أذكار المساء</span>
+  </button>
+  <div class="timebar-progress"><i id="time-progress"></i></div>
+</nav>
+
+<main id="main"></main>
+
+<!-- ═══════════ تذييل ═══════════ -->
+<footer class="foot">
+  <div class="ornament" aria-hidden="true">
+    <svg viewBox="0 0 240 24"><path d="M0 12h86M154 12h86M120 1l11 11-11 11-11-11z" fill="none" stroke="currentColor" stroke-width="1.4"></path><circle cx="120" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4"></circle></svg>
+  </div>
+  <p class="foot-txt">
+    الأذكار منقولة عن <b>القرآن الكريم</b> و<b>صحيح البخاري</b> و<b>صحيح مسلم</b> و<b>سنن أبي داود</b>
+    و<b>سنن الترمذي</b> و<b>سنن النسائي</b> و<b>مسند أحمد</b>، وهو ما اعتمده "<b>حصن المسلم</b> من أذكار الكتاب والسنة".
+  </p>
+  <p class="foot-note">
+    تنبيه: عند الخلاف في العدد أو في التصحيح ذُكر ذلك في بطاقة الذكر. التطبيق للاستذكار والقصد لا لاستنباط الأحكام، والرجوع لأهل العلم مفتاح الفهم.
+  </p>
+  <p class="foot-copy">﴿ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾</p>
+</footer>
+
+<!-- ═══════════ لوحة الإعدادات ═══════════ -->
+<div class="drawer-backdrop" id="settings-backdrop" hidden></div>
+<aside class="drawer" id="settings" hidden aria-label="الإعدادات">
+  <div class="drawer-head">
+    <h2>الإعدادات</h2>
+    <button class="ibtn" id="close-settings" aria-label="إغلاق">✕</button>
+  </div>
+
+  <div class="drawer-body">
+    <section class="set">
+      <h3>المظهر</h3>
+      <div class="seg" data-set="theme">
+        <button data-val="light">فاتح</button>
+        <button data-val="dark">داكن</button>
+        <button data-val="auto">تلقائي</button>
+      </div>
+      <p class="set-hint">«تلقائي» يتبع مظهر نظام جهازك.</p>
+    </section>
+
+    <section class="set">
+      <h3>الخط</h3>
+      <div class="seg" data-set="font">
+        <button data-val="kufi">المثمن (كوفي)</button>
+        <button data-val="naskh">نسخ (أميري)</button>
+      </div>
+      <p class="set-hint">الخط الافتراضي هو <b>المثمن</b> — حروفه مربّعة الزوايا كالأشكال الثمانية.</p>
+    </section>
+
+    <section class="set">
+      <h3>حجم خط الأذكار</h3>
+      <div class="seg" data-set="size">
+        <button data-val="0">أصغر</button>
+        <button data-val="1">صغير</button>
+        <button data-val="2">معتدل</button>
+        <button data-val="3">كبير</button>
+        <button data-val="4">كبير جدًا</button>
+        <button data-val="5">ضخم</button>
+      </div>
+      <div class="preview-line">مَا شَاءَ اللَّهُ تَبَارَكَ اللَّهُ</div>
+    </section>
+
+    <section class="set">
+      <h3>خيارات</h3>
+      <label class="switch">
+        <input type="checkbox" id="opt-keep">
+        <span class="track"></span>
+        <span class="sw-txt">حفظ عدّ المسبحة بين الأيام (بدل التصفير اليومي)</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="opt-auto" checked>
+        <span class="track"></span>
+        <span class="sw-txt">فتح أذكار الوقت المناسب تلقائيًا</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="opt-printall" checked>
+        <span class="track"></span>
+        <span class="sw-txt">عند الطباعة: الكتاب كاملًا (الصباح والمساء معًا)</span>
+      </label>
+      <p class="set-hint">إن أُطفأت، يُطبع القسم المعروض فقط. المطبوع يتضمّن ترويسة وتاريخًا وتذييلًا ومربّعات للتعقيب.</p>
+    </section>
+
+    <section class="set">
+      <h3>البيانات</h3>
+      <div class="btn-row">
+        <button class="btn" id="btn-print">🖨 طباعة / حفظ PDF</button>
+        <button class="btn danger" id="btn-wipe">مسح كل التقدّم</button>
+      </div>
+      <p class="set-hint" id="stats-line"></p>
+    </section>
+  </div>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="adhkar.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
