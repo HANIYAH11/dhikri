@@ -35,7 +35,7 @@ export default function Home() {
           ذِكري
         </h1>
         <p className="mt-1 text-sm font-bold text-slate-600 dark:text-sand-300">
-          أذكار الصباح والمساء
+          وردك اليومي
         </p>
 
         <blockquote className="mx-auto mt-6 max-w-xl rounded-3xl border-r-4 border-brand-600 bg-white/80 px-5 py-5 shadow-card dark:border-gold-400 dark:bg-night-850/80">

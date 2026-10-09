@@ -71,7 +71,7 @@ export default function DhikrCard({ dhikr, onNext, active, onCompleted }: Props)
       `المصدر: ${dhikr.source}`,
       dhikr.authenticity ? `الحكم: ${dhikr.authenticity}` : "",
       "",
-      "ذِكري — أذكار الصباح والمساء",
+      "ذِكري — وردك اليومي",
     ].filter(Boolean);
     return lines.join("\n");
   };

@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "ذِكري — أذكار الصباح والمساء بمصادرها، مع مسبحة لكل ذكر",
+  "description": "ذِكري — وردك اليومي: أذكار الصباح والمساء بمصادرها، مع مسبحة لكل ذكر",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && node scripts/validate-data.mjs && vite build",

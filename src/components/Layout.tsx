@@ -69,7 +69,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               ذِكري
             </span>
             <span className="hidden text-xs font-bold text-slate-600 dark:text-sand-300 sm:inline">
-              أذكار الصباح والمساء
+              وردك اليومي
             </span>
           </Link>
 
