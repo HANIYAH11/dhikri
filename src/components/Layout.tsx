@@ -46,6 +46,21 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-screen flex-col">
+      {/* تخطّي إلى المحتوى — أول عنصر تركيزي في الصفحة */}
+      <a
+        href="#main"
+        onClick={(e) => {
+          // نمنع تغيير الـ hash (الذي يقود توجيه HashRouter) وننقل التركيز يدويًّا
+          e.preventDefault();
+          const m = document.getElementById("main");
+          m?.focus();
+          m?.scrollIntoView({ block: "start" });
+        }}
+        className="sr-only focus:not-sr-only focus:absolute focus:right-2 focus:top-2 focus:z-50 focus:rounded-xl focus:bg-brand-700 focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white"
+      >
+        تخطَّ إلى المحتوى
+      </a>
+
       {/* ── الشريط العلوي ── */}
       <header className="sticky top-0 z-30 border-b border-sand-200 bg-white/85 backdrop-blur-md dark:border-night-800 dark:bg-night-900/85">
         <div className="mx-auto flex h-16 max-w-4xl items-center justify-between gap-3 px-4">
@@ -136,7 +151,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       </header>
 
       {/* ── المحتوى ── */}
-      <main id="main" className="mx-auto w-full max-w-4xl flex-1 px-4 pb-32 pt-6 sm:pb-16">
+      <main id="main" tabIndex={-1} className="mx-auto w-full max-w-4xl flex-1 px-4 pb-32 pt-6 sm:pb-16 focus:outline-none">
         {children}
       </main>
 

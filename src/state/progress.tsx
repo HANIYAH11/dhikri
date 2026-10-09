@@ -23,11 +23,41 @@ import {
   type ProgressState,
   type SectionProgress,
 } from "../data/types";
-import { getCategoryDhikr } from "../data/adhkar";
+import { getCategoryDhikr, getDhikrById } from "../data/adhkar";
 import { load, save, todayKey } from "../lib/storage";
 import { useSettings } from "./settings";
 
 const KEY = "progress";
+
+/** يزيل أي معرّف لم يعد موجودًا في البيانات (بعد تغيّر الإصدارات) */
+function sanitizeSection(
+  category: CategoryId,
+  sec: SectionProgress
+): SectionProgress {
+  const valid = new Set(getCategoryDhikr(category).map((d) => d.id));
+  const completed = (Array.isArray(sec.completed) ? sec.completed : []).filter(
+    (id) => typeof id === "string" && valid.has(id)
+  );
+  const counters: Record<string, number> = {};
+  for (const [id, v] of Object.entries(sec.counters ?? {})) {
+    if (
+      valid.has(id) &&
+      typeof v === "number" &&
+      Number.isFinite(v) &&
+      v >= 0
+    ) {
+      counters[id] = v;
+    }
+  }
+  return {
+    completed,
+    counters,
+    lastDhikrId:
+      typeof sec.lastDhikrId === "string" && valid.has(sec.lastDhikrId)
+        ? sec.lastDhikrId
+        : null,
+  };
+}
 
 function completedFromCounters(
   category: CategoryId,
@@ -52,10 +82,22 @@ function initialProgress(keepCounters: boolean): ProgressState {
   const sameDay = saved.date === todayKey();
   const next: ProgressState = {
     date: todayKey(),
-    morning: { ...emptySection(), ...(saved.morning ?? {}) },
-    evening: { ...emptySection(), ...(saved.evening ?? {}) },
-    favorites: Array.isArray(saved.favorites) ? saved.favorites : [],
-    lastSection: saved.lastSection ?? null,
+    morning: sanitizeSection("morning", {
+      ...emptySection(),
+      ...(saved.morning ?? {}),
+    }),
+    evening: sanitizeSection("evening", {
+      ...emptySection(),
+      ...(saved.evening ?? {}),
+    }),
+    favorites: (Array.isArray(saved.favorites) ? saved.favorites : []).filter(
+      (id): id is string =>
+        typeof id === "string" && getDhikrById(id) !== undefined
+    ),
+    lastSection:
+      saved.lastSection === "morning" || saved.lastSection === "evening"
+        ? saved.lastSection
+        : null,
   };
   if (!sameDay) {
     if (keepCounters) {

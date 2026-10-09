@@ -39,7 +39,7 @@ export default function Home() {
         </p>
 
         <blockquote className="mx-auto mt-6 max-w-xl rounded-3xl border-r-4 border-brand-600 bg-white/80 px-5 py-5 shadow-card dark:border-gold-400 dark:bg-night-850/80">
-          <p className="dhikr-text !text-[1.15rem] !leading-[2] text-slate-800 dark:text-sand-100">
+          <p className="dhikr-text !leading-[2.2] text-slate-800 dark:text-sand-100">
             ﴿ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾
           </p>
           <footer className="mt-2 text-xs font-bold text-slate-600 dark:text-gold-300">

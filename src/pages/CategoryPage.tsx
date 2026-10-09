@@ -34,11 +34,37 @@ export default function CategoryPage({ category: explicit }: { category?: Catego
   const [filter, setFilter] = useState<Filter>("all");
   const [activeId, setActiveId] = useState<string | null>(null);
 
+  // بطاقات أُكملت للتوّ — تبقى ظاهرة ثوانٍ في تصفية «المتبقّي» حتى يقرأ المستخدم
+  // رسالة النجاح وزر «التالي» قبل أن تختفي من التصفية
+  const [retained, setRetained] = useState<string[]>([]);
+  const retainTimers = useRef<number[]>([]);
+  const retain = (id: string) => {
+    setRetained((prev) => (prev.includes(id) ? prev : [...prev, id]));
+    const t = window.setTimeout(() => {
+      setRetained((prev) => prev.filter((x) => x !== id));
+    }, 3500);
+    retainTimers.current.push(t);
+  };
+  useEffect(
+    () => () => retainTimers.current.forEach((t) => window.clearTimeout(t)),
+    []
+  );
+
+  // تسجيل الزيارة والتمرير لأعلى عند التركيب أو تبديل القسم
   useEffect(() => {
     visitSection(catId);
-    setFilter("all");
     window.scrollTo({ top: 0 });
   }, [catId, visitSection]);
+
+  // إعادة التصفية والاستبقاء عند «تبديل» القسم فقط — لا عند أول تركيب،
+  // كي لا يلغي أثر التركيب المتأخّر نقرة المستخدم الأولى على التصفية
+  const mountedCat = useRef(catId);
+  useEffect(() => {
+    if (mountedCat.current === catId) return;
+    mountedCat.current = catId;
+    setFilter("all");
+    setRetained([]);
+  }, [catId]);
 
   // إعادة الزائر إلى آخر ذكر تفاعل معه (إن بقي في هذا القسم)
   const resumed = useRef(false);
@@ -59,25 +85,34 @@ export default function CategoryPage({ category: explicit }: { category?: Catego
 
   const filtered = list.filter((d) =>
     filter === "remaining"
-      ? !isCompleted(d.id)
+      ? !isCompleted(d.id) || retained.includes(d.id)
       : filter === "done"
         ? isCompleted(d.id)
         : true
   );
 
+  /** التالي يحترم التصفية المعروضة: متبقٍّ←متبقٍ، منجَز←منجَز، وإلا الترتيب الكامل */
   const goNext = (id: string) => {
     const i = list.findIndex((d) => d.id === id);
-    const next = list[i + 1];
-    if (!next) {
+    const rest = i >= 0 ? list.slice(i + 1) : list;
+    const next =
+      filter === "remaining"
+        ? rest.find((d) => !isCompleted(d.id) || retained.includes(d.id))
+        : filter === "done"
+          ? rest.find((d) => isCompleted(d.id))
+          : rest[0];
+
+    const el = next ? document.getElementById(`dhikr-${next.id}`) : null;
+    if (!next || !el) {
+      // لا تالٍ معروض — نُكمل الرحلة إلى شاشة إكمال الورد
       document
         .getElementById("completion")
         ?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
     setActiveId(next.id);
-    const el = document.getElementById(`dhikr-${next.id}`);
-    el?.scrollIntoView({ behavior: "smooth", block: "center" });
-    el?.querySelector<HTMLElement>("button")?.focus({ preventScroll: true });
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.querySelector<HTMLElement>("button")?.focus({ preventScroll: true });
   };
 
   const Icon = catId === "morning" ? IconSun : IconMoon;
@@ -139,6 +174,7 @@ export default function CategoryPage({ category: explicit }: { category?: Catego
             dhikr={d}
             active={activeId === d.id}
             onNext={() => goNext(d.id)}
+            onCompleted={() => retain(d.id)}
           />
         ))}
 

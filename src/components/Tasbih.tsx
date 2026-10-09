@@ -6,7 +6,6 @@
    - الوصول إلى الاكتمال: علامة ✓ + رسالة تشجيع + زر «التالي».
    ========================================================================== */
 
-import { useEffect, useRef } from "react";
 import { IconCheck, IconReset } from "./icons";
 import { useSettings } from "../state/settings";
 import { playDone, playTick } from "../lib/sound";
@@ -36,22 +35,28 @@ export default function Tasbih({
   dhikrId,
 }: Props) {
   const done = current >= target;
-  const prev = useRef(current);
   const { settings } = useSettings();
 
   const tap = () => {
     if (settings.sound) playTick();
   };
 
-  useEffect(() => {
-    if (current >= target && prev.current < target) {
+  /**
+   * اكتشاف الإكمال داخل حدث الضغط نفسه — لا في أثر لاحق.
+   * السبب: عند تصفية «المتبقّي» تُعيد الصفحة رسمها فورًا بالعدّاد الجديد،
+   * فلو مؤجَّل الإكمال لأثر لاحق لاختفت البطاقة قبل ظهور رسالة النجاح
+   * وزر «التالي» وتشغيل الاستبقاء.
+   */
+  const handleTap = () => {
+    if (done) return;
+    tap();
+    const willComplete = current + 1 >= target;
+    onIncrement();
+    if (willComplete) {
       onComplete?.();
       if (settings.sound) playDone();
-      if (navigator.vibrate) navigator.vibrate([18, 60, 18]);
     }
-    prev.current = current;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current]);
+  };
 
   const progress = target > 0 ? Math.min(current / target, 1) : 0;
 
@@ -107,10 +112,7 @@ export default function Tasbih({
 
         <button
           type="button"
-          onClick={() => {
-            tap();
-            onIncrement();
-          }}
+          onClick={handleTap}
           disabled={done}
           aria-label={
             done

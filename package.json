@@ -6,7 +6,8 @@
   "description": "ذِكري — أذكار الصباح والمساء بمصادرها، مع مسبحة لكل ذكر",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && node scripts/validate-data.mjs && vite build",
+    "validate": "node scripts/validate-data.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

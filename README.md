@@ -15,7 +15,8 @@
 ```bash
 npm install          # تثبيت الاعتماديات
 npm run dev          # خادم التطوير: http://localhost:5173
-npm run build        # فحص TypeScript ثم بناء نسخة الإنتاج في dist/
+npm run build        # فحص TypeScript + تدقيق قاعدة البيانات ثم البناء في dist/
+npm run validate     # تدقيق بنية بيانات الأذكار فقط (دون بناء)
 npm run preview      # معاينة نسخة الإنتاج: http://localhost:4173
 ```
 

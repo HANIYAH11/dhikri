@@ -17,9 +17,11 @@ interface Props {
   onNext?: () => void;
   /** تمرير البطاقة إلى آخر ذكر تفاعل معه المستخدم */
   active?: boolean;
+  /** إشعار الصفحة الأمّ بالإكتمال (يُبقي البطاقة ظاهرة للتعقيب في تصفية «المتبقّي») */
+  onCompleted?: () => void;
 }
 
-export default function DhikrCard({ dhikr, onNext, active }: Props) {
+export default function DhikrCard({ dhikr, onNext, active, onCompleted }: Props) {
   const {
     counterOf,
     increment,
@@ -57,6 +59,7 @@ export default function DhikrCard({ dhikr, onNext, active }: Props) {
     setJustDone(true);
     showToast("أحسنت، أتممت الذكر.");
     if (navigator.vibrate) navigator.vibrate([18, 60, 18]);
+    onCompleted?.();
   };
 
   /** نص المشاركة: النص + المصدر + عدد التكرار فقط (لا شيء غير موثّق) */

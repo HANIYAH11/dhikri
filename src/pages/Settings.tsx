@@ -3,7 +3,7 @@
    المظهر / حجم الخط / الخط / الصوت / التذكيرات / إعادة التقدّم / حول
    ========================================================================== */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSettings, FONT_SCALE_LABELS } from "../state/settings";
 import { useProgress } from "../state/progress";
@@ -20,42 +20,12 @@ export default function SettingsPage() {
   const [perm, setPerm] = useState<Perm>("default");
   const [confirmReset, setConfirmReset] = useState(false);
   const [reminderMsg, setReminderMsg] = useState<string | null>(null);
-  const timers = useRef<number[]>([]);
 
   useEffect(() => {
     setPerm(
       typeof Notification === "undefined" ? "unsupported" : Notification.permission
     );
-    return () => timers.current.forEach((t) => window.clearTimeout(t));
   }, []);
-
-  /** جدولة تذكير واحد لليوم الحالي — بشرط بقاء التبويب مفتوحًا */
-  const scheduleReminder = (kind: "morning" | "evening") => {
-    const r = settings.reminders[kind];
-    const [h, m] = r.time.split(":").map(Number);
-    const now = new Date();
-    const when = new Date();
-    when.setHours(h, m, 0, 0);
-    if (when.getTime() <= now.getTime()) when.setDate(when.getDate() + 1);
-    const delay = when.getTime() - now.getTime();
-
-    const id = window.setTimeout(() => {
-      if (typeof Notification !== "undefined" && Notification.permission === "granted") {
-        new Notification(
-          kind === "morning" ? "☀️ أذكار الصباح" : "🌙 أذكار المساء",
-          {
-            body:
-              kind === "morning"
-                ? "ابدأ يومك بذكر الله."
-                : "اختم يومك بذكر الله.",
-            lang: "ar",
-            dir: "rtl",
-          }
-        );
-      }
-    }, Math.min(delay, 2 ** 31 - 1));
-    timers.current.push(id);
-  };
 
   const toggleReminder = async (kind: "morning" | "evening", enabled: boolean) => {
     if (enabled) {
@@ -76,7 +46,7 @@ export default function SettingsPage() {
       setReminderMsg(
         "التذكير يعمل ما دام تبويب الموقع مفتوحًا — لا نعد بإشعار في الخلفية أو عند إغلاق المتصفّح."
       );
-      scheduleReminder(kind);
+      // الجدولة نفسها في طبقة التطبيق (settings provider) فلا تضيع عند مغادرة الصفحة
     } else {
       setReminderMsg(null);
     }
