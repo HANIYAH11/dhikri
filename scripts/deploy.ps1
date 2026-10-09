@@ -30,9 +30,9 @@ git commit -q -m "نشر الموقع — $stamp"
 
 Write-Host "3/4 الرفع إلى GitHub..." -ForegroundColor Cyan
 if ($env:GH_TOKEN) {
-  $url = "https://x-access-token:$($env:GH_TOKEN)@github.com/HANIYAH11/dhikri.git"
+  $url = "https://x-access-token:$($env:GH_TOKEN)@github.com/HANIYAH11/dhikri-app.git"
 } else {
-  $url = "https://github.com/HANIYAH11/dhikri.git"   # يتطلب بيانات دخول محفوظة
+  $url = "https://github.com/HANIYAH11/dhikri-app.git"   # يتطلب بيانات دخول محفوظة
 }
 git remote add origin $url
 git push -f origin gh-pages
@@ -42,4 +42,4 @@ Pop-Location
 Remove-Item $tmp -Recurse -Force
 
 Write-Host "4/4 تم النشر. يُحدَّث الموقع خلال دقيقة تقريبًا." -ForegroundColor Green
-Write-Host "https://haniyah11.github.io/dhikri/" -ForegroundColor Yellow
+Write-Host "https://haniyah11.github.io/dhikri-app/" -ForegroundColor Yellow

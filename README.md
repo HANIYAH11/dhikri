@@ -32,8 +32,8 @@ npm run preview      # معاينة نسخة الإنتاج: http://localhost:41
 
 | | |
 | --- | --- |
-| المستودع | https://github.com/HANIYAH11/dhikri |
-| الموقع | https://haniyah11.github.io/dhikri/ |
+| المستودع | https://github.com/HANIYAH11/dhikri-app |
+| الموقع | https://haniyah11.github.io/dhikri-app/ |
 
 - فرع **`main`** = الكود المصدر (يُرفع بالعادي).
 - فرع **`gh-pages`** = نسخة الإنتاج المبنية (`dist/`)، وهو مصدر GitHub Pages.
