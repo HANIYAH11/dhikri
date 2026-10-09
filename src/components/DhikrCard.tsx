@@ -184,7 +184,10 @@ export default function DhikrCard({ dhikr, onNext, active }: Props) {
           .map((r, i) => (
             <div key={i} className="flex flex-wrap items-center gap-2">
               <dt className="rounded-lg bg-sand-100 px-2 py-1 text-xs font-bold text-slate-600 dark:bg-night-800 dark:text-sand-300">
-                رقم الحديث — {r.book}
+                {/* المرجع القرآني آية، لا حديث — لا يُخلط بينهما */}
+                {r.book.startsWith("سورة ")
+                  ? `رقم الآية — ${r.book}`
+                  : `رقم الحديث — ${r.book}`}
               </dt>
               <dd className="font-bold tabular-nums text-slate-700 dark:text-sand-200">
                 {r.hadithNumbers.join("، ")}
