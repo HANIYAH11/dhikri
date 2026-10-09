@@ -21,7 +21,7 @@ Copy-Item ".nojekyll" $tmp -Force
 Write-Host "2/4 تجهيز فرع gh-pages..." -ForegroundColor Cyan
 Push-Location $tmp
 git init -b gh-pages 2>&1 | Out-Null
-git config user.name  "HANIYAH11"
+git config user.name  "Noor Al Dhikr"
 git config user.email "218851620+HANIYAH11@users.noreply.github.com"
 git add -A
 
